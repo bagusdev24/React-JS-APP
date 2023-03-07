@@ -7,12 +7,24 @@ const EditProduk = () => {
   const [deskripsi, setDeskripsi] = useState('');
   const [harga, setHarga] = useState('');
   const [stock, setStock] = useState('');
+  const [kategori, setKategori] = useState([]);
+  const [id_kategori, setIdKategori] = useState('');
   const history = useNavigate();
   const { id } = useParams();
+
+  useEffect(() => {
+    getKategori();
+  }, []);
+
+  const getKategori = async (e) => {
+    const response = await axios.get('http://localhost:4000/produk/kategori');
+    setKategori(response.data);
+  };
 
   const updateProduct = async (e) => {
     e.preventDefault();
     await axios.patch(`http://localhost:4000/produk/${id}`, {
+      id_kategori: id_kategori,
       name: name,
       deskripsi: deskripsi,
       harga: harga,
@@ -36,6 +48,19 @@ const EditProduk = () => {
   return (
     <div className='container'>
       <form onSubmit={updateProduct}>
+        <div className='mb-3'>
+          <label className='form-label'>Kategori</label>
+          <select
+            className='form-control'
+            required
+            onChange={(e) => setIdKategori(e.target.value)}
+          >
+            {kategori.map((el) => (
+              <option value={el.id}>{el.name}</option>
+            ))}
+          </select>
+        </div>
+
         <div className='mb-3'>
           <label className='form-label'>Name</label>
           <input

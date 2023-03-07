@@ -8,7 +8,7 @@ const AddProduk = () => {
   const [harga, setHarga] = useState('');
   const [stock, setStock] = useState('');
   const [kategori, setKategori] = useState([]);
-  const [id_kategori, setIdKategori] = useState([]);
+  const [id_kategori, setIdKategori] = useState('');
   const history = useNavigate();
 
   useEffect(() => {
